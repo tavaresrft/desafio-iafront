@@ -2,9 +2,9 @@
 
 Este é o desafio de contratação do time ia-front da B2W. Fique atento às regras e as considerações. **Você deve fazer um fork deste repositório**, comitar nele suas alterações e enviar o link quando estiver concluído.
 
-Neste exercício vamos medir a sua capacidade de analisar e descrever o comportamento de visitas e venda a um e-commerce de acordo com grupos semânticos gerados a a partir de clusterizações. Apesar de não ser uma boa prática, vamos precisar que comite seus resultados (gráficos e datsets) no seu novo repositório, para que possamos analisá-lo antes da entrevista técnica onde será questionado sobre seu código e seu resultado. Uma boa prática é não misturar com o código, então mantenha seus dados numa pasta separada do módulo para evitar qualquer confusão e facilitar um possível ignore posteriormente.
+Neste exercício vamos medir a sua capacidade de analisar e descrever o comportamento de visitas e venda a um e-commerce de acordo com grupos semânticos gerados a a partir de clusterizações. Apesar de não ser uma boa prática, vamos precisar que comite seus resultados (gráficos e datsets) no seu novo repositório, para que possamos analisá-lo antes da entrevista técnica onde será questionado sobre seu código e seu resultado. Uma boa prática é não misturar com o código, então mantenha seus dados numa pasta separada do módulo para evitar qualquer confusão e facilitar um possível git ignore posteriormente.
 
-Ao longo do exercídio são pedidas alguma análises e avaliações, você deve escrevê-las num arquivo **ANALISES.md** que deve ser posto na raiz do repositório. Se sinta livre para usar gráficos, tabelas, e tudo mais que achar relevante nesse arquivo para explicar o que foi questionado. Como estamos avaliando sua capacidade analítica, quanto mais matemáticos forem seus argumentos, melhor.
+Ao longo do exercício são pedidas alguma análises e avaliações, você deve escrevê-las num arquivo **ANALISES.md** que deve ser posto na raiz do repositório. Se sinta livre para usar gráficos, tabelas, e tudo mais que achar relevante nesse arquivo para explicar o que foi questionado. Como estamos avaliando sua capacidade analítica, quanto mais matemáticos forem seus argumentos, melhor.
 
 ## Regras
 
@@ -16,7 +16,7 @@ Sempre que o produto de seus jobs for um conjunto de dados, este deve ser gerado
 
 Fique atento aos jobs atuais e tenha em mente como você deve alterar e/ou criar novos.
 
-O problema é montado de que um job gera dados para um ou mais jobs seguintes, fique atento ao reaproveitamento. Se quiser, você pode criar jobs para etapas intermediárias.
+O problema é montado de modo que um job gera dados para um ou mais jobs seguintes, fique atento ao reaproveitamento. Se quiser, você pode criar jobs para etapas intermediárias.
 
 Muito cuidado com a organização de seu código: separar em módulos é uma boa prática, para permitir que os jobs sejam facilmente compreensíveis e atualizáveis. Cuide dos nomes de funções e variáveis, e fique atento aos seus resultados.
 
@@ -69,7 +69,7 @@ O dataset produtos.csv:
 
 ### Associando visitas a pedidos
 
-Primeiro passo é associar as visitas aos pedidos. O arquivo `desafio_iafront/jobs/pedidos.job.py` é o entrypoint dele. Este job coleta os dados de visitas, pedidos e produtos, e monta um dataset maior com todas as informações relevantes. Perceba que por questões de eficiência, esse job é particionado tanto por data quanto por hora, carregando os dados aos poucos para evitar sobrecarga de processamento.
+Primeiro passo é associar as visitas aos pedidos. O arquivo `desafio_iafront/jobs/pedidos.py` é o entrypoint dele. Este job coleta os dados de visitas, pedidos e produtos, e monta um dataset maior com todas as informações relevantes. Perceba que por questões de eficiência, esse job é particionado tanto por data quanto por hora, carregando os dados aos poucos para evitar sobrecarga de processamento.
 
 Sua primeira missão é deixar o código mais limpo, para começar, vamos simplificar a função main. A partir de agora ela deve ser escrita no seguinte formato:
 
@@ -154,7 +154,7 @@ def method_name(data: str, hour: int, pedidos: str, produtos_df: pd.DataFrame, s
 
 ### Scale de dados para analise semântica
 
-Um dos problemas ao analisar dados no e-commerce está em relevar o que é importante para o usuário, uma das formas de fazer isso é por meio de semânticas. Uma das formas de construir relações semânticas é explorando a formação de clusters com o comportamento de alguma variável algo, no caso, a conversão (o número de pedidos com relação ao número de visitas). Uma visita é dita convertida quando ela resulta numa compra, a razão entre número de compras pelo número de visitas de uma partição é chamada conversão. Vamos começar a próxima tarefa criando um job capaz de aplicar algumas outras técnicas de escala no dado o preparando para análise futura. O módulo `desafio_iafront/jobs/escala_pedidos/job_normalização.py` aplica uma técnica chamada normalização, sua próxima missão é se basear nele e criar novos jobs que apliquem as seguintes técnicas:
+Um dos problemas ao analisar dados no e-commerce está em relevar o que é importante para o usuário, uma das formas de fazer isso é por meio de semânticas. Uma das formas de construir relações semânticas é explorando a formação de clusters com o comportamento de alguma variável alvo, no caso, a conversão (o número de pedidos com relação ao número de visitas). Uma visita é dita convertida quando ela resulta numa compra, a razão entre número de compras pelo número de visitas de uma partição é chamada conversão. Vamos começar a próxima tarefa criando um job capaz de aplicar algumas outras técnicas de escala no dado o preparando para análise futura. O módulo `desafio_iafront/jobs/escala_pedidos/job_normalização.py` aplica uma técnica chamada normalização, sua próxima missão é se basear nele e criar novos jobs que apliquem as seguintes técnicas:
 
 * StandardScaler¶
 * MinMaxScaler
@@ -166,7 +166,7 @@ Um dos problemas ao analisar dados no e-commerce está em relevar o que é impor
 
 Sua próxima missão é criar dois novos jobs no módulo `desafio_iafront.jobs.graphics`
 
-* um deve ser capaz de criar um HTML com dois gráficos em formato scatter mostrando a distribuição dos pontos antes e depois da transformação de escala que você fez.
+* Um deve ser capaz de criar um HTML com dois gráficos em formato scatter mostrando a distribuição dos pontos antes e depois da transformação de escala que você fez.
 * Outro deve ser capaz de crirar gráficos no formato de histogramas mostrando a distribuição dos pontos antes e depois da transformação de escala que você fez.
 
 Ambos os jobs devem ter como entrada (dentre mais) os dados que serão suados para cada eixo. Execute este gráfico para o Normalizer e as demais técnicas que implementou. Analisando os resultados para diversas colunas, você deve ser capaz de responder as seguintes perguntas:
@@ -184,11 +184,10 @@ Baseado nos jobs resultantes, agora você vai criar novos jobs para pelo menos q
 
 ### Gráficos de clusters
 
-Uma vez que você já tem os dados clusterizados, utilize a versão com o particionamento que lhe parecer mais interessante para criar novos jobs que geram gráficos para compar a distribuição dos pontos dos clusters. Antes de partir pra semântica. Analisando os gráficos, e com seu conhecimento matemático, explique quais combinações de método de escala e clusterização geram os melhores resultados.
-
+Uma vez que você já tem os dados clusterizados, utilize a versão com o particionamento que lhe parecer mais interessante para criar novos jobs que geram gráficos para compar a distribuição dos pontos dos clusters. Antes de partir pra semântica, analise os gráficos, e com seu conhecimento matemático, explique quais combinações de método de escala e clusterização geram os melhores resultados.
 ### Agora você deve
 
-Agora chegamos no alvo, agora vamos gerar e analisar a semântica de conversão: Aqui o objetivo você vai criar alguns novos jobs:
+Chegamos então ao ponto principal de nossa análise, agora vamos gerar e analisar a semântica de conversão. Você deverá criar alguns novos jobs:
 
 * Um job que gera gráficos comparando a conversão total de cada cluster para uma janela de data de entrada
 * Um novo job que calcula a conversão agregada em uma escala recebida como parâmetro que pode ser hora, minuto, ou dia. Ele deve salvar o resultado particionado por esta escala, e label do cluster.
