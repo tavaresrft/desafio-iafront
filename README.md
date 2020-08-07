@@ -22,7 +22,7 @@ Muito cuidado com a organização de seu código: separar em módulos é uma boa
 
 ## Os dados
 
-Os dados podem ser encontrados em (COLOCAR LOCAL ONDE OS DADOS PODEM SER PEGOS), na pasta, verá o seguinte conteúdo:
+Os dados podem ser encontrados na pasta *dados*, na pasta, verá o seguinte conteúdo:
 
 ```BASH
 dados
