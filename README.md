@@ -22,7 +22,7 @@ Muito cuidado com a organização de seu código: separar em módulos é uma boa
 
 ## Os dados
 
-Os dados podem ser encontrados na pasta *dados*, na pasta, verá o seguinte conteúdo:
+Os dados podem ser encontrados no repositório [b2wdigital/dataset-desafio-ia-front](https://github.com/b2wdigital/dataset-desafio-ia-front), na pasta, verá o seguinte conteúdo:
 
 ```BASH
 dados
