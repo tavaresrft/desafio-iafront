@@ -1,11 +1,13 @@
 from functools import partial
+
 import click
 import numpy as np
 
 from desafio_iafront.data.saving import save_partitioned
-from desafio_iafront.jobs.clusters.clusters import kmeans
+from desafio_iafront.jobs.clusters.clusters import agglomerative_clustering
 from desafio_iafront.data.dataframe_utils import read_partitioned_json
 from desafio_iafront.jobs.common import filter_date
+
 
 #@click.command()
 #@click.option('--dataset', type=click.Path(exists=True))
@@ -14,19 +16,18 @@ from desafio_iafront.jobs.common import filter_date
 #@click.option('--data-inicial', type=click.DateTime(formats=["%d/%m/%Y"]))
 #@click.option('--data-final', type=click.DateTime(formats=["%d/%m/%Y"]))
 def main(dataset: str, number_of_cluster: int, saida: str, data_inicial, data_final):
-    
     filter_function = partial(filter_date, data_inicial=data_inicial, data_final=data_final)
 
     dataset = read_partitioned_json(file_path=dataset, filter_function=filter_function)
     vector = np.asarray(list(dataset['features'].to_numpy()))
-            
-    labels, coordinates = kmeans(vector, number_of_cluster)
+    labels = agglomerative_clustering(vector, number_of_cluster)
 
     dataset['cluster_label'] = list(labels)
-    
-    save_partitioned(dataset, saida+"kmeans_cluster_data_hora", ['cluster_label', 'data', 'hora'])
-    save_partitioned(dataset, saida+"kmeans_data_hora_cluster", ['data', 'hora', 'cluster_label'])
-    save_partitioned(dataset, saida+"kmeans_data_hora", ['data', 'hora'])
+
+    save_partitioned(dataset, saida+"agglomerative_clustering_cluster_data_hora", ['cluster_label', 'data', 'hora'])
+    save_partitioned(dataset, saida+"agglomerative_clustering_data_hora_cluster", ['data', 'hora', 'cluster_label'])
+    save_partitioned(dataset, saida+"agglomerative_clustering_data_hora", ['data', 'hora'])
+
 
 if __name__ == '__main__':
     main()
