@@ -2,6 +2,8 @@ import json
 from typing import Sequence, Dict
 
 import pandas as pd
+import os
+from datetime import timedelta
 from functools import reduce
 from dataset_loader import Dataset
 
@@ -72,3 +74,27 @@ def _json_loader_function(filename: str) -> Sequence[Dict]:
 
 def _read_json_line(json_line: str) -> dict:
     return json.loads(json_line.rstrip('\n'))
+
+def read_data_partitions(data_inicial,data_final, data_path):
+    
+    delta: timedelta = (data_final - data_inicial)
+    date_partitions = [data_inicial.date() + timedelta(days=days) for days in range(delta.days)]
+    
+    for data in date_partitions:
+        hour_partitions = list(range(0, 24))
+
+        for hour in hour_partitions:
+            hour_snnipet = f"hora={hour}"
+
+            data_str = data.strftime('%Y-%m-%d')
+            date_partition = f"data={data_str}"
+
+            data_partition = os.path.join(data_path, date_partition, hour_snnipet)
+            dataframe = read_partitioned_json(data_partition)
+            dataframe["id_produto"] = dataframe["id_produto"].astype(str)
+            dataframe["id_visita"] = dataframe["id_visita"].astype(str)
+
+            dataframe["data"] = data_str
+            dataframe["hora"] = hour
+
+    return dataframe
