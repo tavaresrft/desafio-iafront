@@ -21,6 +21,13 @@ setup(
         'console_scripts': [
             'prepara-pedidos=desafio_iafront.jobs.pedidos:main',
             'cria-visitas=desafio_iafront.jobs.create_visits:main'
+            'normalizacao=desafio_iafront.jobs.escala_pedidos.job_normalizacao.py:main',
+            'kmeans=desafio_iafront.jobs.clusters.job_kmeans:main',
+            'mbk=desafio_iafront.jobs.clusters.job_mbk:main',
+            'birch=desafio_iafront.jobs.clusters.job_birch:main',
+            'spectral_clustering=desafio_iafront.jobs.clusters.job_spectral_clustering:main',
+            'agglomerative_clustering=desafio_iafront.jobs.clusters.agglomerative_clustering:main',
+            'plotter=desafio_iafront.jobs.graphics.job_graphics:main'
         ]
     }
 )
