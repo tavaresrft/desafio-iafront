@@ -6,7 +6,8 @@
 
 No relatório abordo como as transformações de escala e os métodos de clusterização podem afetar o processo de escolha.
 
-Escolhi as duas primeiras primeiras semanas, de 01/06/2020 até 14/06/2020, para um departamento escolhido aleatoriamente utilizando a função __randint__, que teve como resultado o departamento __alimentos_bebidas__. Escolhi a coluna __prazo__ para fazer as análises, pois foi a que apresentou o menor quociente entre a média e o desvio padrão q,
+Escolhi as duas primeiras primeiras semanas, de 01/06/2020 até 14/06/2020, para um departamento escolhido aleatoriamente utilizando a função __randint__, que teve como resultado o departamento __alimentos_bebidas__. Escolhi a coluna __prazo__ para fazer as análises, pois foi a que apresentou o menor quociente (q) entre a média (m) e o desvio padrão (std),
+
 q = mean(x)/std(x).
 
 ### Escalonamento dos dados.
@@ -19,13 +20,17 @@ Como métodos de Clusterização escolhi, KMeans, MiniBatchKMeans, Birch,
 AgglomerativeClustering e SpectralClustering.
 
 O método __Normalizer__ faz uma transformação linear nos dados de uma amostra no qual a soma das variáveis ao quadrado ou norma euclidiana, para cada amostra é igual a 1,
+
 x_i'=x_i/\sum_j x_j^2.
+
 A ![figura1](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana1_prazo_Normalizer.html "figura1") e a ![figura2](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana2_prazo_Normalizer.html "figura2") mostram como a variável preço se comporta na primeira e segunda semanas, respectivamente. 
 
 Podemos notar que do ponto de vista dos prazos brutos, há pouca diferença nas distribuições para as semanas escolhidas, porém após a transformação há uma grande diferença na distribuição entre os valores. Antes da transformação a frequência dos dados se distribuem mais uniformemente pelos valores, já após a transformação Normalizer há uma maior distribuição para valores menores da transformação. Vemos também que dentro da variável prazo a transformação é não linear, pois a linearidade se mantém dentro das variáveis das amostras e não dentro da variável como um todo.
 
 O método __StandardScaler__ faz uma transformação linear nas variáveis como um todo. A variável escalonada é de tal forma que sua média é nula e seu desvio padrão é igual a um. Para fazer essa transformação podemos fazer,
+
 x_i'=(x_i-m)/std,
+
 onde m é a média do conjunto original e std, seu desvio padrão.
 A ![figura3](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana1_prazo_StandardScaler.html "figura3") e a ![figura4](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana2_prazo_StandardScaler.html "figura4") mostram os resultados da transformação StandardScaler
 para a primeira e segunda semana consideradas, respectivamente.
@@ -33,17 +38,24 @@ Notamos também que não há grande diferença entre as distribuições das duas
 
 O método __MinMaxScaler__ escalona os dados levando em consideração os valores
 máximos e mínimos de uma variável em um conjunto de dados através da equação,
+
 x_i' = x_{std}(max(X) - min(X)) + min(X)
 x_{std}=(x_i - min(X)) / (max(X) - min(X)).
 
 Novamente a transformação é linear para a variável em questão, como podemos ver na ![figura5](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana1_preco_MinMaxScaler.html "figura5") e na ![figura6](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana2_preco_MinMaxScaler.html "figura6"). Assim como na transformação anterior, os valores escalonados não sofrem grandes alterações de uma semana para outra.
 
 O método __MaxAbsScaler__ transforma os dados da seguinte maneira,
+
 x_i'=x_i/max(abs(X)).
+
 Dessa maneira os dados podem ficar escalonados entre -1 e 1 e essa transformação é linear na variável. A ![figura7](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana1_preco_MaxAbsScaler.html "figura7") e a ![figura8](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana2_preco_MaxAbsScaler.html "figura8") mostram como se dá a transformação.
 Como a distribuição dos preços não sofreu muita alteração entre as semanas e o escalonamento MinMaxScaler faz transformações lineares, não houve uma mudança significativa entre as semanas para os dados escalonadas.
 
-O método __RobustScaler__ leva em conta a mediana (med) e os quartis (Q) maior e menor através da equação, x_i = (x_i'-med(X))/(Q75%-Q25%). Essa transformação também é linear e não altera a distribuição dos dados, porém essa transformação é menos suscetível a outliers, caso existam no conjunto. A ![figura9](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana1_preco_RobustScaler.html "figura9") e a ![figura10](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana2_preco_RobustScaler.html "figura10") mostram as mudanças desse escalonamento.
+O método __RobustScaler__ leva em conta a mediana (med) e os quartis (Q) maior e menor através da equação,
+
+x_i = (x_i'-med(X))/(Q75%-Q25%).
+
+Essa transformação também é linear e não altera a distribuição dos dados, porém essa transformação é menos suscetível a outliers, caso existam no conjunto. A ![figura9](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana1_preco_RobustScaler.html "figura9") e a ![figura10](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana2_preco_RobustScaler.html "figura10") mostram as mudanças desse escalonamento.
 
 O método __PowerTransformer__ faz com que uma distribuição de dados se torne mais gaussiana, portanto essa transformação é não linear nos dados. A ![figura11](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana1_preco_PowerTransformer.html "figura11") e a ![figura12](https://github.com/tavaresrft/desafio-iafront/blob/master/codigo/plot_semana2_preco_PowerTransformer.html "figura12") mostram como os dados se transformam.
 
