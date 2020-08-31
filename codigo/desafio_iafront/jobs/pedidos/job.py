@@ -9,13 +9,13 @@ from desafio_iafront.jobs.pedidos.contants import SAVING_PARTITIONS
 from desafio_iafront.jobs.pedidos.utils import _prepare,remove_na_df,method_name
 
 
-#@click.command()
-#@click.option('--pedidos', type=click.Path(exists=True))
-#@click.option('--visitas', type=click.Path(exists=True))
-#@click.option('--produtos', type=click.Path(exists=True))
-#@click.option('--saida', type=click.Path(exists=False, dir_okay=True, file_okay=False))
-#@click.option('--data-inicial', type=click.DateTime(formats=["%d/%m/%Y"]))
-#@click.option('--data-final', type=click.DateTime(formats=["%d/%m/%Y"]))
+@click.command()
+@click.option('--pedidos', type=click.Path(exists=True))
+@click.option('--visitas', type=click.Path(exists=True))
+@click.option('--produtos', type=click.Path(exists=True))
+@click.option('--saida')
+@click.option('--data-inicial', type=click.DateTime(formats=["%d/%m/%Y"]))
+@click.option('--data-final', type=click.DateTime(formats=["%d/%m/%Y"]))
 def main(pedidos, visitas, produtos, saida, data_inicial, data_final):
     
         # Evita que dados antigos permaneçam
