@@ -1,5 +1,7 @@
 import pandas as pd
 from bokeh.plotting import figure
+import numpy as np
+
 
 
 def plot(dataframe: pd.DataFrame, x_axis, y_axis, cluster_label, title=""):
@@ -24,3 +26,78 @@ def set_color(color):
     index = color % len(COLORS)
 
     return COLORS[index]
+
+def scatter_plot(dataframe: pd.DataFrame, x_axis, y_axis, title=""):
+    
+    p = figure(title=title, tools='',background_fill_color="#fafafa")
+
+    p.scatter(dataframe[x_axis].tolist(), dataframe[y_axis].tolist())
+    p.xaxis.axis_label = x_axis
+    p.yaxis.axis_label = y_axis
+
+    return p
+
+def hist_plot(dataframe: pd.DataFrame, x_axis, title=""):
+    
+    p = figure(title=title, tools='')
+    
+    hist,edges = np.histogram(dataframe[x_axis],  density= True, bins = 50)
+    
+    p.quad(top=hist, bottom=0, left=edges[:-1], right=edges[1:],fill_color='navy', line_color = 'white', alpha=0.5)
+    
+    p.xaxis.axis_label = x_axis
+    p.yaxis.axis_label = 'frequency'
+    
+    return p
+
+def scaled_scatter_plot(dataframe: pd.DataFrame, x_axis, y_axis, title=""):
+    
+    x_axis_data = get_scaled_data(dataframe, x_axis)
+    y_axis_data = get_scaled_data(dataframe, y_axis)
+
+    p = figure(title=title, tools='')
+
+    p.scatter(list(x_axis_data), list(y_axis_data))
+    p.xaxis.axis_label = x_axis
+    p.yaxis.axis_label = y_axis
+    
+    return p
+
+def scaled_hist_plot(dataframe: pd.DataFrame, axis, title=""):
+    
+    x_axis_data = get_scaled_data(dataframe, axis)
+    
+    p = figure(title=title, tools='')
+    
+    hist,edges = np.histogram(list(x_axis_data),  density= True, bins = 50)
+    
+    p.quad(top=hist, bottom=0, left=edges[:-1], right=edges[1:],fill_color='navy', line_color = 'white', alpha=0.5)
+    
+    p.xaxis.axis_label = axis
+    p.yaxis.axis_label = 'frequency'
+    
+    return p
+
+def specify_axis_position(axis):
+    variables = ['preco', 'prazo', 'frete', 'latitude', 'longitude']
+    variable_index =  variables.index(axis)
+    return variable_index
+
+def get_scaled_data(dataframe, axis):
+    index = specify_axis_position(axis)
+    scaled_data = list(zip(*dataframe.features))[index]
+    return scaled_data
+
+def compare_plot(dataframe, x_axis, title):
+
+    x_axis_data = dataframe[x_axis]
+    y_axis_data = get_scaled_data(dataframe, x_axis)
+
+    
+    p = figure(title=title, tools='')
+
+    p.scatter(list(x_axis_data), list(y_axis_data))
+    p.xaxis.axis_label = 'valores brutos'
+    p.yaxis.axis_label = 'valores transformados'
+
+    return p
