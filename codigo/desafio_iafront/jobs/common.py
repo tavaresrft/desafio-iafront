@@ -5,8 +5,10 @@ from sklearn.base import TransformerMixin
 
 from desafio_iafront.data.dataframe_utils import read_partitioned_json
 
+def filter_departamento(row, departamentos_lista: Sequence[str]):
+    return row["departamento"] in departamentos_lista
 
-def prepare_dataframe(departamentos_lista: Sequence[str], dataset_path, data_inicial: datetime,
+def prepare_dataframe_com_dummies(departamentos_lista: Sequence[str], dataset_path, data_inicial: datetime,
                       data_final: datetime):
     def filter_function(row):
         return filter_departamento(row, departamentos_lista) and filter_date(row, data_inicial, data_final)
@@ -18,9 +20,20 @@ def prepare_dataframe(departamentos_lista: Sequence[str], dataset_path, data_ini
     result = visitas_com_conversao.join(departamentos).drop('departamento', axis=1)
     return result
 
+def prepare_dataframe(departamentos_lista: Sequence[str], dataset_path, data_inicial: datetime,
+                      data_final: datetime):
+    def filter_function(row):
+        return filter_departamento(row, departamentos_lista) and filter_date(row, data_inicial, data_final)
 
-def filter_departamento(row, departamentos_lista: Sequence[str]):
-    return row["departamento"] in departamentos_lista
+    visitas = read_partitioned_json(dataset_path, filter_function)
+    visitas_com_coordenadas = _extracting_coordinates(visitas)
+    visitas_com_conversao = convert(visitas_com_coordenadas)
+    result = visitas_com_conversao.drop('departamento', axis=1)
+    return result
+
+
+def filter_function(row):
+    return filter_departamento(row, departamentos_lista) and filter_date(row, data_inicial, data_final)
 
 
 def filter_date(row, data_inicial: datetime, data_final: datetime):
