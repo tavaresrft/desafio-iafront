@@ -19,15 +19,24 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'prepara-pedidos=desafio_iafront.jobs.pedidos:main',
-            'cria-visitas=desafio_iafront.jobs.create_visits:main'
-            'normalizacao=desafio_iafront.jobs.escala_pedidos.job_normalizacao.py:main',
+            'prepara_pedidos=desafio_iafront.jobs.pedidos.job:main',
+            'normalizer=desafio_iafront.jobs.escala_pedidos.job_normalizer:main',
+            'standardscaler=desafio_iafront.jobs.escala_pedidos.job_standard_scaler:main',
+            'minmaxscaler=desafio_iafront.jobs.escala_pedidos.job_minmax_scaler:main',
+            'maxabsscaler=desafio_iafront.jobs.escala_pedidos.job_maxabs_scaler:main',
+            'robustscaler=desafio_iafront.jobs.escala_pedidos.job_robust_scaler:main',
+            'powertransformer=desafio_iafront.jobs.escala_pedidos.job_power_transformer:main',
             'kmeans=desafio_iafront.jobs.clusters.job_kmeans:main',
             'mbk=desafio_iafront.jobs.clusters.job_mbk:main',
             'birch=desafio_iafront.jobs.clusters.job_birch:main',
-            'spectral_clustering=desafio_iafront.jobs.clusters.job_spectral_clustering:main',
-            'agglomerative_clustering=desafio_iafront.jobs.clusters.agglomerative_clustering:main',
-            'plotter=desafio_iafront.jobs.graphics.job_graphics:main'
+            'spectralclustering=desafio_iafront.jobs.clusters.job_spectral_clustering:main',
+            'agglomerativeclustering=desafio_iafront.jobs.clusters.agglomerative_clustering:main',
+            'convert=desafio_iafront.jobs.clusters.job_conversion:main',
+            'plotclustertime=desafio_iafront.jobs.graphics.job_cluster_times:main',
+            'plotcompare=desafio_iafront.jobs.graphics.job_compare:main',
+            'plotmap=desafio_iafront.jobs.graphics.job_map:main',
+            'plottotalcluster=desafio_iafront.jobs.graphics.job_plot_cluster:main',
+            'plotconversion=desafio_iafront.jobs.graphics.job_total_conversion:main',
         ]
     }
 )
